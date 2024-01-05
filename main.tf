@@ -116,38 +116,16 @@ resource "aws_nat_gateway" "nat_gateway" {
   }
 }
 
-# Terraform Data Block - To Lookup Latest Ubuntu 20.04 AMI Image
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-  owners = ["099720109477"]
-}
-# Terraform Resource Block - To Build EC2 instance in Public Subnet
-resource "aws_instance" "web_server" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-  subnet_id     = aws_subnet.public_subnets["public_subnet_1"].id
-  tags = {
-    Name = "Ubuntu EC2 Server"
-  }
-}
 
 #create EC2 Instance witihin pubic subnet
 resource "aws_instance" "web" {
-ami = "<AMI>"
-instance_type = "t2.micro"
+  ami           = "ami-00b8917ae86a424c9"
+  instance_type = "t2.micro"
 
-subnet_id = "<SUBNET>"
-vpc_security_group_ids = ["<SECURITY_GROUP>"]
+  subnet_id              = aws_subnet.public_subnets["public_subnet_1"].id #got this from above
+  vpc_security_group_ids = ["sg-074b07212e9d035fd"]
 
-tags = {
-"Identity" = "<IDENTITY>"
-}
+  tags = {
+    "Terraform" = "true"
+  }
 }
