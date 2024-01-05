@@ -137,3 +137,16 @@ resource "aws_instance" "web_server" {
     Name = "Ubuntu EC2 Server"
   }
 }
+
+#create EC2 Instance witihin pubic subnet
+resource "aws_instance" "web" {
+ami = "<AMI>"
+instance_type = "t2.micro"
+
+subnet_id = "<SUBNET>"
+vpc_security_group_ids = ["<SECURITY_GROUP>"]
+
+tags = {
+"Identity" = "<IDENTITY>"
+}
+}
